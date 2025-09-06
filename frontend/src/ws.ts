@@ -1,9 +1,11 @@
-const URL = 'localhost:3000'
+import type { Card as CardSprite } from "./sprites/card.js";
+
+const URL = 'localhost:3000';
 
 const ws = new WebSocket(`ws://${URL}`);
 
 let playerId: string;
-let gameState: any = {}; // current game state from server
+let gameState: GameState; // current game state from server
 
 ws.onopen = () => console.log('Connected to server');
 
@@ -12,6 +14,32 @@ ws.onmessage = (msg) => {
     handleServerMessage(data);
 };
 
+type BasicCard = {
+    rank: string,
+    suite: string,
+}
+
+type Position = {
+    x: number,
+    y: number,
+    rotation: number
+}
+
+type Meld = {
+    cards: (BasicCard & Position)[]
+}
+
+type PlayerData = {
+    name: string,
+    nCards: number,
+}
+
+type GameState = {
+    discardPileTop: BasicCard,
+    hand: BasicCard[],
+    melds: Meld[]
+    players: PlayerData[]
+}
 
 function handleServerMessage(data: any) {
     switch (data.type) {
@@ -23,7 +51,7 @@ function handleServerMessage(data: any) {
             break;
         case 'game-state':
             gameState = data.state;
-            console.log("game state changed ")
+            console.log('game state changed ');
             break;
         default:
             console.log('Unknown message', data);

@@ -1,45 +1,35 @@
-import { Application, Assets, Container, Sprite } from 'pixi.js';
+import {
+  Application,
+  Assets,
+  Container,
+  Graphics,
+  Sprite,
+  Text,
+} from 'pixi.js';
+import { Card } from './sprites/card.js';
 import './ws.js';
+import './GameState.js'
 
 (async () => {
-  // Create a new application
   const app = new Application();
+  await app.init({ background: '#109900', resizeTo: window }); // init
 
-  // Initialize the application
-  await app.init({ background: '#1099bb', resizeTo: window });
-
-  // Append the application canvas to the document body
   document.body.appendChild(app.canvas);
 
-  // Create and add a container to the stage
   const container = new Container();
 
   app.stage.addChild(container);
 
-  // Load the bunny texture
-  const texture = await Assets.load('https://pixijs.com/assets/bunny.png');
-
-  // Create a 5x5 grid of bunnies in the container
-  for (let i = 0; i < 25; i++) {
-    const bunny = new Sprite(texture);
-
-    bunny.x = (i % 5) * 40;
-    bunny.y = Math.floor(i / 5) * 40;
-    container.addChild(bunny);
-  }
-
-  // Move the container to the center
-  container.x = app.screen.width / 2;
-  container.y = app.screen.height / 2;
-
-  // Center the bunny sprites in local container coordinates
-  container.pivot.x = container.width / 2;
-  container.pivot.y = container.height / 2;
-
-  // Listen for animate update
-  app.ticker.add((time) => {
-    // Continuously rotate the container!
-    // * use delta to create frame-independent transform *
-    container.rotation -= 0.01 * time.deltaTime;
-  });
+  const aceCard = new Card(
+    'hearts',
+    'A',
+    600,
+    300,
+    0.5,
+    Math.PI / 4,
+    0.2,
+    'assets/cards/ace.png',
+  );
+  aceCard.isActive = true;
+  await aceCard.createSprite(container);
 })();

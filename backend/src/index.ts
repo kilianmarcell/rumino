@@ -1,5 +1,6 @@
 import { WebSocketServer } from 'ws';
 import express from 'express';
+import type { Card } from './game/card.js';
 
 const app = express();
 const PORT = 3000;
@@ -17,14 +18,13 @@ interface Player {
   id: string;
   ws: WebSocket;
   name?: string;
-  hand: string[];
 }
 
 const players: Map<string, Player> = new Map();
 
 wss.on('connection', (ws: any) => {
   const playerId = crypto.randomUUID();
-  const player: Player = { id: playerId, ws, hand: [] };
+  const player: Player = { id: playerId, ws };
   players.set(playerId, player);
 
   console.log(`Player connected: ${playerId}`);
@@ -45,20 +45,26 @@ wss.on('connection', (ws: any) => {
   });
 });
 
+
 function handleMessage(player: Player, data: any) {
   switch (data.type) {
     case 'set-name':
       player.name = data.name;
-      broadcast({ type: 'player-joined', playerId: player.id, name: player.name });
+      broadcast({
+        type: 'player-joined',
+        playerId: player.id,
+        name: player.name,
+      });
       break;
 
-    case 'draw-card':
-      // TODO: implement deck & draw logic
-      break;
+    case 'draw':
+      break
 
-    case 'play-card':
-      // TODO: implement playing card logic
-      break;
+    case 'change_board':
+      break
+
+    case 'end_turn':
+      break
 
     default:
       console.log('Unknown message type', data);
