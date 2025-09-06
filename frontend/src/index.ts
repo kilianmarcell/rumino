@@ -1,4 +1,5 @@
 import { Application, Assets, Container, Sprite } from 'pixi.js';
+import './ws.js';
 
 (async () => {
   // Create a new application
