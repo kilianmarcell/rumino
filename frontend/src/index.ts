@@ -8,7 +8,7 @@ import {
 } from 'pixi.js';
 import { Card } from './sprites/card.js';
 import './ws.js';
-import './GameState.js'
+import './gameState.js'
 
 (async () => {
   const app = new Application();

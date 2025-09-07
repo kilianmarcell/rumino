@@ -30,15 +30,17 @@ type Meld = {
 }
 
 type PlayerData = {
+    id: string,
     name: string,
     nCards: number,
 }
 
-type GameState = {
+export type GameState = {
+    currentPlayerId: string,
     discardPileTop: BasicCard,
     hand: BasicCard[],
     melds: Meld[]
-    players: PlayerData[]
+    players: Map<string, PlayerData> // id --> player
 }
 
 function handleServerMessage(data: any) {

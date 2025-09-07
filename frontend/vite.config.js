@@ -5,6 +5,6 @@ dns.setDefaultResultOrder('verbatim');
 
 export default defineConfig({
   server: {
-    allowedHosts: ['d68642d821d8.ngrok-free.app'],
+    allowedHosts: ['f5227c623f65.ngrok-free.app'],
   },
 });

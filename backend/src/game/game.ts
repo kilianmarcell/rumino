@@ -1,4 +1,4 @@
-import { buildDeck, Card, shuffle } from './card.js';
+import { buildDeck, Card, shuffle, ranks } from './card.js';
 import { Player } from './player.js';
 
 export class Game {
@@ -6,6 +6,7 @@ export class Game {
   players: Player[];
   discardPile: Card[];
   currentPlayerIndex: number;
+  tableRows: Card[][];
 
   constructor(players: Player[]) {
     if (players.length < 2) throw new Error('Not enough players');
@@ -13,6 +14,7 @@ export class Game {
     this.players = players;
     this.discardPile = [];
     this.currentPlayerIndex = 0;
+    this.tableRows = [];
   }
 
   start_game(): void {
@@ -51,5 +53,17 @@ export class Game {
 
   discard_card(card: Card): void {
     this.discardPile.push(card);
+  }
+
+  isValidRow(row: Card[]): boolean {
+    if (row.length < 3) return false;
+
+    
+
+    return true;
+  }
+
+  check_table_rows(): boolean {
+    return this.tableRows.every(row => this.isValidRow(row));
   }
 }

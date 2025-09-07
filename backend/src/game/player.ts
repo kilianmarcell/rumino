@@ -1,14 +1,10 @@
 import { Card } from './card.js';
 
 export class Player {
-  id: number;
-  name: string;
   hand: Card[];
   finished: boolean;
 
-  constructor(id: number = 0, name: string) {
-    this.id = id;
-    this.name = name;
+  constructor(name: string) {
     this.hand = [];
     this.finished = false;
   }
